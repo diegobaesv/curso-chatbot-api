@@ -10,5 +10,4 @@ export const insertarConversacion = async (request: Request, response: Response)
     } catch (error) {
         response.json({success: false, data: null, message: error});
     }
-    
 }
