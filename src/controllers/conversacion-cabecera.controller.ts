@@ -1,16 +1,18 @@
 import { Request, Response } from "express";
 import * as conversacionCabeceraService from "../services/conversacion-cabecera.service";
+import { ConversacionCabeceraResponse } from "../payload/responses/conversacion-cabecera.response";
+import { ResponseModel } from "../shared/response-model";
 
 export const obtenerUltimaConversacionCabecera = async (request: Request, response: Response) => {
     try {
         const { telefono } = request.params;
-        let result: any[] = await conversacionCabeceraService.obtenerUltimaConversacionCabecera(telefono);
-        if(result.length == 0) {
+        let conversacionCabecera: ConversacionCabeceraResponse = await conversacionCabeceraService.obtenerUltimaConversacionCabecera(telefono);
+        if(!conversacionCabecera) {
             await conversacionCabeceraService.insertarConversacionCabecera(telefono, '20241020223915');
-            result = await conversacionCabeceraService.obtenerUltimaConversacionCabecera(telefono);
+            conversacionCabecera = await conversacionCabeceraService.obtenerUltimaConversacionCabecera(telefono);
         }
-        response.json({success: true, data: result[0], message: 'OK'});
+        response.json(ResponseModel.success(conversacionCabecera));
     } catch (error) {
-        response.json({success: false, data: null, message: error});
+        response.status(500).json(ResponseModel.error(error.message));
     }
 }

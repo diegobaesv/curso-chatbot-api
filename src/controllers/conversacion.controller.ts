@@ -1,13 +1,14 @@
 import { Request, Response } from "express"
 import * as conversacionService from "../services/conversacion.service"
+import { ResponseModel } from "../shared/response-model";
 
-export const insertarConversacion = async (request: Request, response: Response) => {
+export const insertarConversacion = async (req: Request, res: Response) => {
     try {
         console.log('conversacionController::insertarConversacion');
-        const body = request.body;
-        await conversacionService.insertarConversacion(body);
-        response.json({success: true, data: null});
+        const body = req.body;
+        const response =  await conversacionService.insertarConversacion(body);
+        res.json(ResponseModel.success(null,response));
     } catch (error) {
-        response.json({success: false, data: null, message: error});
+        res.status(500).json(ResponseModel.error(error.message));
     }
 }
