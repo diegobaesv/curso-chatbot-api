@@ -9,6 +9,7 @@ export const insertarConversacion = async (req: Request, res: Response) => {
         const response =  await conversacionService.insertarConversacion(body);
         res.json(ResponseModel.success(null,response));
     } catch (error) {
+        console.error(error);
         res.status(500).json(ResponseModel.error(error.message));
     }
 }
