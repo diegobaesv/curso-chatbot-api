@@ -8,7 +8,7 @@ export const obtenerUltimaConversacionCabecera = async (request: Request, respon
     try {
         const { telefono } = request.params;
         let conversacionCabecera: ConversacionCabeceraResponse = await conversacionCabeceraService.obtenerUltimaConversacionCabecera(telefono);
-        if(!conversacionCabecera) {
+        if(!conversacionCabecera || conversacionCabecera.ultimoEstado == 1) {
             const cliente = await clienteService.obtenerClientePorTelefono(telefono);
             await conversacionCabeceraService.insertarConversacionCabecera(telefono, '20241020223915', cliente ? cliente.idCliente: null);
             conversacionCabecera = await conversacionCabeceraService.obtenerUltimaConversacionCabecera(telefono);
