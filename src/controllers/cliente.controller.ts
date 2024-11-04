@@ -12,3 +12,14 @@ export const obtenerClientePorNumeroDocumento = async (req: Request, res: Respon
         res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const actualizarTelefonoCliente = async (req: Request, res: Response) => {
+    try {
+        const { idCliente, telefono } = req.body;
+        const response = await clienteService.actualizarTelefonoCliente(idCliente, telefono);
+        res.json(ResponseModel.success(null,response));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(ResponseModel.error(error.message));
+    }
+}

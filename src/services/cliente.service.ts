@@ -1,5 +1,6 @@
 import pool from "../config/db";
 import { ClienteResponse } from "../payload/responses/cliente.response";
+import { RESPONSE_ACTUALIZADO_OK } from "../shared/constants";
 
 export const obtenerClientePorTelefono = async (telefono: string): Promise<ClienteResponse> => {
     console.log('obtenerClientePorTelefono');
@@ -45,4 +46,10 @@ export const obtenerClientePorNumeroDocumento = async (numeroDocumento: string):
         latitud: result[0].latitud,
         longitud: result[0].longitud,
     };
+}
+
+export const actualizarTelefonoCliente = async (idCliente: number, telefono: string): Promise<string> => {
+    console.log('actualizarTelefonoCliente');
+    await pool.query(`update clientes set telefono = $1 where id_cliente = $2`, [telefono, idCliente]);
+    return RESPONSE_ACTUALIZADO_OK;
 }
