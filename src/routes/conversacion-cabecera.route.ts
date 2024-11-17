@@ -1,8 +1,9 @@
 import express from "express";
-import { obtenerUltimaConversacionCabecera } from "../controllers/conversacion-cabecera.controller";
+import { actualizarConversacionCabecera, obtenerUltimaConversacionCabecera } from "../controllers/conversacion-cabecera.controller";
 
 const router = express.Router();
 
 router.get('/ultima/:telefono',obtenerUltimaConversacionCabecera);
+router.put('/:idConversacionCabecera',actualizarConversacionCabecera);
 
 export default router;

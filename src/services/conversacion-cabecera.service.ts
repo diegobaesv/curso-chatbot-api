@@ -1,6 +1,6 @@
 import pool from "../config/db"
 import { ConversacionCabeceraResponse } from "../payload/responses/conversacion-cabecera.response";
-import { RESPONSE_INSERT_OK } from "../shared/constants";
+import { RESPONSE_ACTUALIZADO_OK, RESPONSE_INSERT_OK } from "../shared/constants";
 
 export const obtenerUltimaConversacionCabecera = async (telefono: string): Promise<ConversacionCabeceraResponse> => {
     console.log('conversacionService::obtenerUltimaConversacionCabecera');
@@ -30,4 +30,21 @@ export const insertarConversacionCabecera = async (telefono: string, hash: strin
         [telefono, hash, idCliente ]
     );
     return RESPONSE_INSERT_OK;
+}
+
+export const actualizarConversacionCabecera = async (idConversacionCabecera: number, data: any) => {
+    console.log('conversacionService::actualizarConversacionCabecera');
+    const querySet = [];
+    const variables = [];
+    if(data.codPedido){
+        variables.push(data.codPedido);
+        querySet.push(`cod_pedido = $${variables.length}`);
+    }
+    if(data.estadoFlujo){
+        variables.push(data.estadoFlujo);
+        querySet.push(`estado_flujo = $${variables.length}`);
+    }
+    variables.push(idConversacionCabecera);
+    await pool.query( `UPDATE bot_conversacion_cabeceras SET ${querySet.join(', ')} WHERE id_conversacion_cabecera = $${variables.length}`, variables );
+    return RESPONSE_ACTUALIZADO_OK;
 }

@@ -12,3 +12,15 @@ export const listarPedidosFiltro =  async (req: Request, res: Response) => {
         res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const actualizarPedidoByCodPedido = async (req: Request, res: Response) => {
+    try {
+        const { codPedido } = req.params;
+        const data = req.body;
+        const response = await pedidoService.actualizarPedidoByCodPedido(codPedido, data);
+        res.json(ResponseModel.success(response));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(ResponseModel.error(error.message));
+    }
+}
