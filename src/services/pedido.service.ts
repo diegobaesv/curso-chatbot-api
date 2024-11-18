@@ -1,5 +1,5 @@
 import pool from "../config/db";
-import { RESPONSE_ACTUALIZADO_OK } from "../shared/constants";
+import * as nominatimService from './nominatim.service';
 
 export const listarPedidosFiltro = async (idCliente: number, estado: string) => {
     const rows: any[] = (await pool.query(`SELECT id_pedido, id_cliente, cod_pedido, 
@@ -40,7 +40,7 @@ export const actualizarPedidoByCodPedido = async (codPedido: string, data: any) 
     }
 
     if(data.latitud && data.longitud){
-        direccion = 'Calle falsa 12345 por calcular'
+        direccion = await nominatimService.obtenerDireccion(data.latitud, data.longitud);
         variables.push(direccion);
         querySet.push(`direccion = $${variables.length}`);
     }
