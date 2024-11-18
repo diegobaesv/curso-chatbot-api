@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { listarDocumentosPorPedido } from '../controllers/documento.controller';
+import { listarDocumentosPorCodPedido } from '../controllers/documento.controller';
 
 const router = Router();
 
-router.get('/pedido/:idPedido', listarDocumentosPorPedido);
+router.get('/pedido/:codPedido', listarDocumentosPorCodPedido);
 
 export default router;
